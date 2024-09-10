@@ -23,6 +23,8 @@ const app = express();
 const port = process.env.PORT;
 const db = new Database(process.env.MONGODB_URI);
 
+db.connect();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -45,9 +47,7 @@ app.use("/api/accessories", accessoriesRoute);
 app.use(errorHandler);
 
 app.listen(port, async () => {
-  await db.connect();
   console.log(`Server is running on port: ${port}`);
 });
 
-
-export default app
+export default app;
