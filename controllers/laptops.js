@@ -86,7 +86,7 @@ const updateLaptop = asyncHandler(async (req, res, next) => {
 
   Laptop.updateOne(
     { _id: id },
-    req.body,
+    { ...req.body },
     { new: true },
     function (err, result) {
       if (err) {

@@ -7,6 +7,8 @@ import credentials from "./middlewares/credentials.js";
 import cookieParser from "cookie-parser";
 import verifyJWT from "./middlewares/verifyJWT.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import Employee from "./models/Employee.js";
+import mongoose from "mongoose";
 
 // routes
 import authRoute from "./routes/auth.js";
@@ -48,6 +50,24 @@ app.use(errorHandler);
 
 app.listen(port, async () => {
   console.log(`Server is running on port: ${port}`);
+
+  try {
+    const existingUser = await Employee.findById("62baa3b60d6245d92ba0d613");
+
+    if (existingUser) return;
+    // Create the default account if not found
+    const defaultAcc = new Employee({
+      _id: mongoose.Types.ObjectId("62baa3b60d6245d92ba0d613"),
+      userId: "default",
+      username: "default",
+      email: "default@default.com",
+      location: "default",
+    });
+    await defaultAcc.save();
+    console.log("Default account created successfully.");
+  } catch (error) {
+    console.error("Error checking or creating default account:", error);
+  }
 });
 
 export default app;

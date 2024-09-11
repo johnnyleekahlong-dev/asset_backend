@@ -28,7 +28,7 @@ router
   .route("/:id")
   .get(laptopsController.getLaptop)
   .put(
-    // verifyRoles(roleList.Admin, roleList.Editor),
+    verifyRoles(roleList.Admin, roleList.Editor),
     laptopsController.updateLaptop
   )
   .delete(verifyRoles(roleList.Admin), laptopsController.deleteLaptop);
